@@ -3,6 +3,7 @@
 GuidR Proposal
 
 - What problem does your app solve? 
+Guidr helps back country guides of all types log their private/professional trips.  Guides will be able to use Guidr to build their Outdoor Resume. Users can login, create read and update their trips with a trip type, location, duration and whether it's private or professional.
 
 - Be as specific as possible; how does your app solve the problem? 
 	
