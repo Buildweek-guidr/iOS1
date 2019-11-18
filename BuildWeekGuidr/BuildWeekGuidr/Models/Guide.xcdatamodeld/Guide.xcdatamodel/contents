@@ -1,35 +1,37 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="15508" systemVersion="18G1012" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
-    <entity name="ImageFile" representedClassName="ImageFile" syncable="YES" codeGenerationType="class">
-        <attribute name="locationOnDisk" optional="YES" attributeType="String"/>
-        <relationship name="trip" maxCount="1" deletionRule="Nullify" destinationEntity="Trip" inverseName="images" inverseEntity="Trip"/>
-    </entity>
     <entity name="Profile" representedClassName="Profile" syncable="YES" codeGenerationType="class">
         <attribute name="age" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
-        <attribute name="guideSpeciality" optional="YES" attributeType="String"/>
+        <attribute name="guideSpecialty" optional="YES" attributeType="String"/>
         <attribute name="password" attributeType="String"/>
         <attribute name="tagline" optional="YES" attributeType="String"/>
         <attribute name="title" optional="YES" attributeType="String"/>
-        <attribute name="token" attributeType="String"/>
         <attribute name="username" attributeType="String"/>
         <attribute name="yearsExperience" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
-        <relationship name="trips" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="Trip" inverseName="profile" inverseEntity="Trip"/>
+        <relationship name="token" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Token" inverseName="profile" inverseEntity="Token"/>
+        <relationship name="trips" optional="YES" toMany="YES" deletionRule="Cascade" ordered="YES" destinationEntity="Trip" inverseName="profile" inverseEntity="Trip"/>
+    </entity>
+    <entity name="Token" representedClassName="Token" syncable="YES" codeGenerationType="class">
+        <attribute name="token" optional="YES" attributeType="String"/>
+        <attribute name="userId" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="username" optional="YES" attributeType="String"/>
+        <relationship name="profile" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Profile" inverseName="token" inverseEntity="Profile"/>
     </entity>
     <entity name="Trip" representedClassName="Trip" syncable="YES" codeGenerationType="class">
         <attribute name="date" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
         <attribute name="distance" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
         <attribute name="duration" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
+        <attribute name="image" optional="YES" attributeType="String"/>
         <attribute name="isPrivate" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
         <attribute name="isProfessional" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
         <attribute name="title" optional="YES" attributeType="String"/>
         <attribute name="tripDescription" optional="YES" attributeType="String"/>
         <attribute name="tripType" optional="YES" attributeType="String"/>
-        <relationship name="images" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="ImageFile" inverseName="trip" inverseEntity="ImageFile"/>
         <relationship name="profile" maxCount="1" deletionRule="Nullify" destinationEntity="Profile" inverseName="trips" inverseEntity="Profile"/>
     </entity>
     <elements>
         <element name="Profile" positionX="-63" positionY="-18" width="128" height="178"/>
         <element name="Trip" positionX="259.37890625" positionY="-21.921875" width="128" height="193"/>
-        <element name="ImageFile" positionX="551.515625" positionY="110.5" width="128" height="73"/>
+        <element name="Token" positionX="171" positionY="90" width="128" height="103"/>
     </elements>
 </model>

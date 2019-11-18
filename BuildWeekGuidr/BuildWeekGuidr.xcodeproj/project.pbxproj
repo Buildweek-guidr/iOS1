@@ -21,6 +21,9 @@
 		C0FFBAC92383256400D7D459 /* CoreDataStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0FFBAC82383256400D7D459 /* CoreDataStack.swift */; };
 		C0FFBACD2383259B00D7D459 /* Profile+Convenience.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0FFBACC2383259B00D7D459 /* Profile+Convenience.swift */; };
 		C0FFBACF238325C300D7D459 /* ProfileRepresentation.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0FFBACE238325C300D7D459 /* ProfileRepresentation.swift */; };
+		C0FFBAD1238348CC00D7D459 /* Token+Convenience.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0FFBAD0238348CC00D7D459 /* Token+Convenience.swift */; };
+		C0FFBAD323834FD600D7D459 /* Trip+Convenience.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0FFBAD223834FD600D7D459 /* Trip+Convenience.swift */; };
+		C0FFBAD52383551500D7D459 /* TokenRepresentation.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0FFBAD42383551500D7D459 /* TokenRepresentation.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -40,6 +43,9 @@
 		C0FFBAC82383256400D7D459 /* CoreDataStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataStack.swift; sourceTree = "<group>"; };
 		C0FFBACC2383259B00D7D459 /* Profile+Convenience.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Profile+Convenience.swift"; sourceTree = "<group>"; };
 		C0FFBACE238325C300D7D459 /* ProfileRepresentation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileRepresentation.swift; sourceTree = "<group>"; };
+		C0FFBAD0238348CC00D7D459 /* Token+Convenience.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Token+Convenience.swift"; sourceTree = "<group>"; };
+		C0FFBAD223834FD600D7D459 /* Trip+Convenience.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Trip+Convenience.swift"; sourceTree = "<group>"; };
+		C0FFBAD42383551500D7D459 /* TokenRepresentation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TokenRepresentation.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -109,8 +115,11 @@
 			children = (
 				C0FFBAC02382EF4E00D7D459 /* Guide.xcdatamodeld */,
 				C0FFBAC82383256400D7D459 /* CoreDataStack.swift */,
+				C0FFBAD0238348CC00D7D459 /* Token+Convenience.swift */,
+				C0FFBAD42383551500D7D459 /* TokenRepresentation.swift */,
 				C0FFBACC2383259B00D7D459 /* Profile+Convenience.swift */,
 				C0FFBACE238325C300D7D459 /* ProfileRepresentation.swift */,
+				C0FFBAD223834FD600D7D459 /* Trip+Convenience.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -190,6 +199,8 @@
 				C0FFBAC22382EF4E00D7D459 /* Guide.xcdatamodeld in Sources */,
 				C0FFBACF238325C300D7D459 /* ProfileRepresentation.swift in Sources */,
 				C0B7BB4C2382358B006505DA /* TripDetailViewController.swift in Sources */,
+				C0FFBAD52383551500D7D459 /* TokenRepresentation.swift in Sources */,
+				C0FFBAD323834FD600D7D459 /* Trip+Convenience.swift in Sources */,
 				C0FFBAC92383256400D7D459 /* CoreDataStack.swift in Sources */,
 				C0B7BB482382358B006505DA /* AppDelegate.swift in Sources */,
 				C0FFBAC72383167200D7D459 /* LoginViewController.swift in Sources */,
@@ -197,6 +208,7 @@
 				C0B7BB5C23823717006505DA /* TripsTableViewController.swift in Sources */,
 				C0B7BB4A2382358B006505DA /* SceneDelegate.swift in Sources */,
 				C0FFBACD2383259B00D7D459 /* Profile+Convenience.swift in Sources */,
+				C0FFBAD1238348CC00D7D459 /* Token+Convenience.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
