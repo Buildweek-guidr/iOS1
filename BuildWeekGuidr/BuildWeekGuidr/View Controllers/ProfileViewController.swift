@@ -9,11 +9,25 @@
 import UIKit
 
 class ProfileViewController: UIViewController {
+    
+    // MARK: - Outlets
+    @IBOutlet weak var profileImageView: UIImageView!
+    
+    // MARK: - Properties
+    
+    // MARK: - Lifecycle Methods
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        // Do any additional setup after loading the view.
+        updateView()
+    }
+    
+    // MARK: - Private Methods
+    
+    private func updateView() {
+        profileImageView.layer.cornerRadius = (profileImageView.bounds.size.width - 1) / 2
+        profileImageView.layer.cornerCurve = .circular
     }
     
 
