@@ -1,4 +1,4 @@
-# iOS1
+# iOS2
 
 GuidR Proposal
 
