@@ -24,6 +24,7 @@
 		C0FFBAD1238348CC00D7D459 /* Token+Convenience.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0FFBAD0238348CC00D7D459 /* Token+Convenience.swift */; };
 		C0FFBAD323834FD600D7D459 /* Trip+Convenience.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0FFBAD223834FD600D7D459 /* Trip+Convenience.swift */; };
 		C0FFBAD52383551500D7D459 /* TokenRepresentation.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0FFBAD42383551500D7D459 /* TokenRepresentation.swift */; };
+		C0FFBAD72383630C00D7D459 /* TripRepresentation.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0FFBAD62383630C00D7D459 /* TripRepresentation.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -46,6 +47,7 @@
 		C0FFBAD0238348CC00D7D459 /* Token+Convenience.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Token+Convenience.swift"; sourceTree = "<group>"; };
 		C0FFBAD223834FD600D7D459 /* Trip+Convenience.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Trip+Convenience.swift"; sourceTree = "<group>"; };
 		C0FFBAD42383551500D7D459 /* TokenRepresentation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TokenRepresentation.swift; sourceTree = "<group>"; };
+		C0FFBAD62383630C00D7D459 /* TripRepresentation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TripRepresentation.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -120,6 +122,7 @@
 				C0FFBACC2383259B00D7D459 /* Profile+Convenience.swift */,
 				C0FFBACE238325C300D7D459 /* ProfileRepresentation.swift */,
 				C0FFBAD223834FD600D7D459 /* Trip+Convenience.swift */,
+				C0FFBAD62383630C00D7D459 /* TripRepresentation.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -207,6 +210,7 @@
 				C0B7BB5E23823730006505DA /* ProfileViewController.swift in Sources */,
 				C0B7BB5C23823717006505DA /* TripsTableViewController.swift in Sources */,
 				C0B7BB4A2382358B006505DA /* SceneDelegate.swift in Sources */,
+				C0FFBAD72383630C00D7D459 /* TripRepresentation.swift in Sources */,
 				C0FFBACD2383259B00D7D459 /* Profile+Convenience.swift in Sources */,
 				C0FFBAD1238348CC00D7D459 /* Token+Convenience.swift in Sources */,
 			);
