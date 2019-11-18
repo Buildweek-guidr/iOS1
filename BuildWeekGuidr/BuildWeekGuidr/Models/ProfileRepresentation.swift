@@ -16,4 +16,5 @@ struct ProfileRepresentation: Codable {
     let title: String
     let username: String
     let yearsExperience: Int16
+    let token: TokenRepresentation
 }
