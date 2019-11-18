@@ -12,6 +12,8 @@ class ProfileViewController: UIViewController {
     
     // MARK: - Outlets
     @IBOutlet weak var profileImageView: UIImageView!
+    @IBOutlet weak var titleLabel: UILabel!
+    @IBOutlet weak var taglineLabel: UILabel!
     
     // MARK: - Properties
     
@@ -28,6 +30,8 @@ class ProfileViewController: UIViewController {
     private func updateView() {
         profileImageView.layer.cornerRadius = (profileImageView.bounds.size.width - 1) / 2
         profileImageView.layer.cornerCurve = .circular
+        profileImageView.layer.borderWidth = 4
+        profileImageView.layer.borderColor = UIColor(displayP3Red: 28/255.0, green: 28/255.0, blue: 30/255.0, alpha: 1.0).cgColor
     }
     
 
