@@ -1,5 +1,5 @@
 //
-//  ViewController.swift
+//  TripDetailViewController.swift
 //  BuildWeekGuidr
 //
 //  Created by morse on 11/17/19.
@@ -8,7 +8,7 @@
 
 import UIKit
 
-class ViewController: UIViewController {
+class TripDetailViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
