@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		C08F36CC23839A250054EB1E /* APIController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C08F36CB23839A250054EB1E /* APIController.swift */; };
 		C0B7BB482382358B006505DA /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0B7BB472382358B006505DA /* AppDelegate.swift */; };
 		C0B7BB4A2382358B006505DA /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0B7BB492382358B006505DA /* SceneDelegate.swift */; };
 		C0B7BB4C2382358B006505DA /* TripDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0B7BB4B2382358B006505DA /* TripDetailViewController.swift */; };
@@ -27,6 +28,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		C08F36CB23839A250054EB1E /* APIController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIController.swift; sourceTree = "<group>"; };
 		C0B7BB442382358B006505DA /* BuildWeekGuidr.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BuildWeekGuidr.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C0B7BB472382358B006505DA /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		C0B7BB492382358B006505DA /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -95,6 +97,7 @@
 			children = (
 				C0B7BB5B23823717006505DA /* TripsTableViewController.swift */,
 				C0B7BB4B2382358B006505DA /* TripDetailViewController.swift */,
+				C08F36CB23839A250054EB1E /* APIController.swift */,
 				C0B7BB5D23823730006505DA /* ProfileViewController.swift */,
 				C0FFBAC62383167200D7D459 /* LoginViewController.swift */,
 			);
@@ -201,6 +204,7 @@
 				C0FFBAD72383630C00D7D459 /* TripRepresentation.swift in Sources */,
 				C0FFBACD2383259B00D7D459 /* Profile+Convenience.swift in Sources */,
 				C0FFBAD1238348CC00D7D459 /* Token+Convenience.swift in Sources */,
+				C08F36CC23839A250054EB1E /* APIController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
