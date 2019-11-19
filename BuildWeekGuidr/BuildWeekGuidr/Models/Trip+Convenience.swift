@@ -25,7 +25,7 @@ extension Trip {
             let tripType = tripType,
             let tripDescription = tripDescription else { return nil }
         
-        return TripRepresentation(title: title, tripDescription: tripDescription, isPrivate: boolToInt(isPrivate), isProfessional: boolToInt(isProfessional), image: image, duration: duration, distance: distance, date: dateFormatter.string(from: date), tripType: tripType, userId: Int(userId))
+        return TripRepresentation(title: title, tripDescription: tripDescription, isPrivate: isPrivate/*boolToInt(isPrivate)*/, isProfessional: isProfessional/* boolToInt(isProfessional)*/, image: image, duration: duration, distance: distance, date: dateFormatter.string(from: date), tripType: tripType, id: Int(userId))
     }
     
     // MARK: - Initializers
@@ -71,11 +71,11 @@ extension Trip {
                   distance: tripRepresentation.distance,
                   duration: tripRepresentation.duration,
                   image: tripRepresentation.image,
-                  isPrivate: intToBool(tripRepresentation.isPrivate),
-                  isProfessional: intToBool(tripRepresentation.isProfessional),
+                  isPrivate: tripRepresentation.isPrivate /*intToBool(tripRepresentation.isPrivate)*/,
+            isProfessional: tripRepresentation.isProfessional /*intToBool(tripRepresentation.isProfessional)*/,
                   title: tripRepresentation.title,
                   tripDescription: tripRepresentation.tripDescription,
-                  userId: Int64(tripRepresentation.userId))
+                  userId: Int64(tripRepresentation.id))
     }
     
     func boolToInt(_ boolean: Bool) -> Int {

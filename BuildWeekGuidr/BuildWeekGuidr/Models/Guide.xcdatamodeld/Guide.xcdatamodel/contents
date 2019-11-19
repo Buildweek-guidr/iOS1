@@ -9,7 +9,7 @@
         <attribute name="username" attributeType="String"/>
         <attribute name="yearsExperience" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
         <relationship name="token" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Token" inverseName="profile" inverseEntity="Token"/>
-        <relationship name="trips" optional="YES" toMany="YES" deletionRule="Cascade" ordered="YES" destinationEntity="Trip" inverseName="profile" inverseEntity="Trip"/>
+        <relationship name="trips" toMany="YES" deletionRule="Cascade" ordered="YES" destinationEntity="Trip" inverseName="profile" inverseEntity="Trip"/>
     </entity>
     <entity name="Token" representedClassName="Token" syncable="YES" codeGenerationType="class">
         <attribute name="token" optional="YES" attributeType="String"/>

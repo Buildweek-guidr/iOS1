@@ -11,18 +11,18 @@ import Foundation
 struct TripRepresentation: Codable {
     let title: String
     let tripDescription: String
-    let isPrivate: Int
-    let isProfessional: Int
+    let isPrivate: Bool
+    let isProfessional: Bool
     let image: String
     let duration: Double // In days
     let distance: Double // In miles
     let date: String // YYYY-MM-DD
     let tripType: String
-    let userId: Int
+    let id: Int
     
     enum CodingKeys: String, CodingKey {
-        case title, isPrivate, isProfessional, image, duration, distance, date, tripType
-        case userId = "user_id"
+        case title, isPrivate, isProfessional, image, duration, distance, date, tripType, id
+//        case userId = "user_id"
         case tripDescription = "description"
     }
 }
