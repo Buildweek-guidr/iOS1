@@ -23,12 +23,13 @@ class TripDetailViewController: UIViewController {
     var trip: Trip?
     
     // MARK: - Lifecycle Methods
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
     }
-
+    
+    
 
 }
 

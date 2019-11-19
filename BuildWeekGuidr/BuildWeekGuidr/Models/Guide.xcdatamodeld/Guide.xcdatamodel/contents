@@ -27,11 +27,12 @@
         <attribute name="title" optional="YES" attributeType="String"/>
         <attribute name="tripDescription" optional="YES" attributeType="String"/>
         <attribute name="tripType" optional="YES" attributeType="String"/>
+        <attribute name="userId" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
         <relationship name="profile" maxCount="1" deletionRule="Nullify" destinationEntity="Profile" inverseName="trips" inverseEntity="Profile"/>
     </entity>
     <elements>
         <element name="Profile" positionX="-63" positionY="-18" width="128" height="178"/>
-        <element name="Trip" positionX="259.37890625" positionY="-21.921875" width="128" height="193"/>
         <element name="Token" positionX="171" positionY="90" width="128" height="103"/>
+        <element name="Trip" positionX="259.37890625" positionY="-21.921875" width="128" height="208"/>
     </elements>
 </model>

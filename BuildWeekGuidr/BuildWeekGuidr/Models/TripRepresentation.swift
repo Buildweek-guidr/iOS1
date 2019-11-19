@@ -14,8 +14,8 @@ struct TripRepresentation: Codable {
     let isPrivate: Int
     let isProfessional: Int
     let image: String
-    let duration: Int // In days
-    let distance: Int // In miles
+    let duration: Double // In days
+    let distance: Double // In miles
     let date: String // YYYY-MM-DD
     let tripType: String
     let userId: Int
