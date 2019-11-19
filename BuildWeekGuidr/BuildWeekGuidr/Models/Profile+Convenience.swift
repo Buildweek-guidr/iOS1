@@ -15,17 +15,16 @@ extension Profile {
     
     var profileRepresentation: ProfileRepresentation? {
         
-        guard let guideSpecialty = guideSpecialty,
-            let password = password,
-            let tagline = tagline,
-            let title = title,
-            let username = username,
+        guard let password = password,
+            /*let tagline = tagline,
+            let title = title,*/
+            let username = username/*,
             let token = token,
-            let tokenRepresentation = token.tokenRepresentation else { return nil }
+            let tokenRepresentation = token.tokenRepresentation */else { return nil }
         
         return ProfileRepresentation(age: age,
                                      guideSpecialty: guideSpecialty, password: password, tagline: tagline, title: title, username: username, yearsExperience: yearsExperience,
-                                     token: tokenRepresentation)
+                                     token: token?.tokenRepresentation)
     }
     
     // MARK: - Initializers

@@ -21,5 +21,6 @@ struct ProfileRepresentation: Codable {
 //    enum codingKeys: String, CodingKey {
 //        case age, guideSpecialty, tagline, title, yearsExperience, token
 //        case password = "\"password\""
+//        case username = "\"username\""
 //    }
 }
