@@ -61,6 +61,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		C08F36CD23841E400054EB1E /* Model Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				C08F36CB23839A250054EB1E /* APIController.swift */,
+			);
+			path = "Model Controllers";
+			sourceTree = "<group>";
+		};
 		C0B7BB3B2382358B006505DA = {
 			isa = PBXGroup;
 			children = (
@@ -84,6 +92,7 @@
 				C0B7BB492382358B006505DA /* SceneDelegate.swift */,
 				C0B7BB4D2382358B006505DA /* Main.storyboard */,
 				C0B7BB5F23823754006505DA /* View Controllers */,
+				C08F36CD23841E400054EB1E /* Model Controllers */,
 				C0FFBAC32382EF5700D7D459 /* Models */,
 				C0B7BB502382358E006505DA /* Assets.xcassets */,
 				C0B7BB522382358E006505DA /* LaunchScreen.storyboard */,
@@ -97,7 +106,6 @@
 			children = (
 				C0B7BB5B23823717006505DA /* TripsTableViewController.swift */,
 				C0B7BB4B2382358B006505DA /* TripDetailViewController.swift */,
-				C08F36CB23839A250054EB1E /* APIController.swift */,
 				C0B7BB5D23823730006505DA /* ProfileViewController.swift */,
 				C0FFBAC62383167200D7D459 /* LoginViewController.swift */,
 			);

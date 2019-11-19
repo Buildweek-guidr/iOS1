@@ -19,10 +19,14 @@ class TripsTableViewController: UITableViewController {
         static let detailSegue = "ShowTripDetailSegue"
         static let profileSegue = "ShowProfileSegue"
     }
+    let apiController = APIController()
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        apiController.signIn(with: "user1", and: "pass") { error in
+            print(error)
+        }
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
 

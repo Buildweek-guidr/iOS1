@@ -32,27 +32,42 @@ extension Profile {
     
     @discardableResult convenience init(username: String,
                                         password: String,
-                                        age: Int16,
-                                        guideSpecialty: String,
-                                        title: String,
-                                        tagline: String,
-                                        yearsExperience: Int,
-                                        token: Token,
+                                        age: Int16? = nil,
+                                        guideSpecialty: String? = nil,
+                                        title: String? = nil,
+                                        tagline: String? = nil,
+                                        yearsExperience: Int? = nil,
+                                        token: Token? = nil,
                                         trips: [Trip] = [],
                                         insertInto context: NSManagedObjectContext = CoreDataStack.shared.mainContext) {
         self.init(context: context)
         
+//        guard let age = age else { return nil }
+        
         self.username = username
         self.password = password
         self.token = token
-        self.age = age
+//        self.age = age
         self.guideSpecialty = guideSpecialty
         self.trips = NSOrderedSet(array: trips)
     }
     
     @discardableResult convenience init(profileRepresentation: ProfileRepresentation) {
+        var experienceRep: Int?
+        var tokenRep: Token?
         
-        let token = Token(tokenRepresentation: profileRepresentation.token, context: CoreDataStack.shared.mainContext)
+        if let tokenRepresentation = profileRepresentation.token {
+            
+            tokenRep = Token(tokenRepresentation: tokenRepresentation, context: CoreDataStack.shared.mainContext)
+        } else {
+            tokenRep = nil
+        }
+        
+        if let experience = profileRepresentation.yearsExperience {
+            experienceRep = Int(experience)
+        } else {
+            experienceRep = nil
+        }
         
         self.init(username: profileRepresentation.username,
                   password: profileRepresentation.password,
@@ -60,7 +75,7 @@ extension Profile {
                   guideSpecialty: profileRepresentation.guideSpecialty,
                   title: profileRepresentation.title,
                   tagline: profileRepresentation.tagline,
-                  yearsExperience: Int(profileRepresentation.yearsExperience),
-                  token: token)
+                  yearsExperience: experienceRep,
+                  token: tokenRep)
     }
 }

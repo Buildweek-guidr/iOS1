@@ -9,12 +9,17 @@
 import Foundation
 
 struct ProfileRepresentation: Codable {
-    let age: Int16
-    let guideSpecialty: String
+    let age: Int16?
+    let guideSpecialty: String?
     let password: String
-    let tagline: String
-    let title: String
+    let tagline: String?
+    let title: String?
     let username: String
-    let yearsExperience: Int16
-    let token: TokenRepresentation
+    let yearsExperience: Int16?
+    let token: TokenRepresentation?
+    
+//    enum codingKeys: String, CodingKey {
+//        case age, guideSpecialty, tagline, title, yearsExperience, token
+//        case password = "\"password\""
+//    }
 }
