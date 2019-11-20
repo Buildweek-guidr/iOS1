@@ -25,19 +25,20 @@ extension Trip {
             let tripType = tripType,
             let tripDescription = tripDescription else { return nil }
         
-        return TripRepresentation(title: title, tripDescription: tripDescription, isPrivate: isPrivate/*boolToInt(isPrivate)*/, isProfessional: isProfessional/* boolToInt(isProfessional)*/, image: image, duration: duration, distance: distance, date: dateFormatter.string(from: date), tripType: tripType, id: Int(userId))
+        return TripRepresentation(title: title, tripDescription: tripDescription, isPrivate: isPrivate, isProfessional: isProfessional/*boolToInt(isPrivate)*/, image: image/* boolToInt(isProfessional)*/, duration: duration, distance: distance, date: dateFormatter.string(from: date), tripType: tripType, id: Int(id)/*, userId: String(userId)*/)
     }
     
     // MARK: - Initializers
     @discardableResult convenience init(date: Date,
                                         distance: Double,
                                         duration: Double,
+                                        id: Int,
                                         image: String,
                                         isPrivate: Bool,
                                         isProfessional: Bool,
                                         title: String,
-                                        tripDescription: String,
-                                        userId: Int64,
+                                        tripDescription: String/*,
+                                        userId: Int64*/,
                                         context: NSManagedObjectContext = CoreDataStack.shared.mainContext) {
         self.init(context: context)
         
@@ -49,14 +50,15 @@ extension Trip {
         self.isProfessional = isProfessional
         self.title = title
         self.tripDescription = tripDescription
-        self.userId = userId
+        self.id = Int16(id)
+//        self.userId = userId
     }
     
     @discardableResult convenience init?(tripRepresentation: TripRepresentation, context: NSManagedObjectContext = CoreDataStack.shared.mainContext) {
         
         var dateFormatter: DateFormatter {
             let formatter = DateFormatter()
-            formatter.dateFormat = "yyyy-MM-dd"
+            formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"
             return formatter
         }
         
@@ -64,18 +66,20 @@ extension Trip {
             return (Int == 1 ? true : false)
         }
         
-        guard let date = dateFormatter.date(from: tripRepresentation.date) else { return nil }
-        
+        guard let date = dateFormatter.date(from: tripRepresentation.date)/*,
+            let userId = Int64(tripRepresentation.userId)*/ else { return nil }
+//        2019-06-01T00:00:00.000Z
         
         self.init(date: date,
                   distance: tripRepresentation.distance,
                   duration: tripRepresentation.duration,
+                  id: tripRepresentation.id,
                   image: tripRepresentation.image,
                   isPrivate: tripRepresentation.isPrivate /*intToBool(tripRepresentation.isPrivate)*/,
             isProfessional: tripRepresentation.isProfessional /*intToBool(tripRepresentation.isProfessional)*/,
-                  title: tripRepresentation.title,
-                  tripDescription: tripRepresentation.tripDescription,
-                  userId: Int64(tripRepresentation.id))
+            title: tripRepresentation.title,
+            tripDescription: tripRepresentation.tripDescription/*,
+            userId: userId*/)
     }
     
     func boolToInt(_ boolean: Bool) -> Int {

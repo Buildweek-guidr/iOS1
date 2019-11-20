@@ -50,11 +50,18 @@
                         </connections>
                     </tableView>
                     <navigationItem key="navigationItem" title="My Trips" id="ide-F7-3e5">
-                        <barButtonItem key="leftBarButtonItem" title="Profile" id="u5k-sy-vH8">
-                            <connections>
-                                <segue destination="EnT-dc-eHM" kind="presentation" identifier="ShowProfileSegue" id="YDR-7m-red"/>
-                            </connections>
-                        </barButtonItem>
+                        <leftBarButtonItems>
+                            <barButtonItem title="Profile" id="u5k-sy-vH8">
+                                <connections>
+                                    <segue destination="EnT-dc-eHM" kind="presentation" identifier="ShowProfileSegue" id="YDR-7m-red"/>
+                                </connections>
+                            </barButtonItem>
+                            <barButtonItem title="reload" id="Fyp-by-WYM">
+                                <connections>
+                                    <action selector="reload:" destination="L5Z-q7-Luh" id="EfG-E8-VRQ"/>
+                                </connections>
+                            </barButtonItem>
+                        </leftBarButtonItems>
                         <barButtonItem key="rightBarButtonItem" systemItem="add" id="tQV-FL-ldJ">
                             <connections>
                                 <segue destination="BYZ-38-t0r" kind="show" identifier="ShowAddTripSegue" id="1uI-2X-RJI"/>

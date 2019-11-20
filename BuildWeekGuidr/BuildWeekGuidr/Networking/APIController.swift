@@ -86,7 +86,11 @@ class APIController {
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
         
         profile = Profile(username: username, password: password, age: nil, guideSpecialty: nil, title: nil, tagline: nil, yearsExperience: nil, token: nil)
-        
+        do {
+            try CoreDataStack.shared.save(context: CoreDataStack.shared.mainContext)
+        } catch {
+            print("Could not save profile.")
+        }
 //        guard let profile = profile else { return }
         
         guard let profileRepresentation = profile?.profileRepresentation else {
@@ -214,7 +218,8 @@ class APIController {
             guard let data = data else {
                 return
             }
-//            print(String(data: data, encoding: .utf8))
+            print("*****HERE*****")
+            print(String(data: data, encoding: .utf8))
             
             let decoder = JSONDecoder()
 //            decoder.dateDecodingStrategy = .secondsSince1970
@@ -223,15 +228,24 @@ class APIController {
                 
                 var trips: [Trip] = []
                 for tripRepresentation in decoded {
+                    print(tripRepresentation.title)
                     if let trip = Trip(tripRepresentation: tripRepresentation) {
                         trips.append(trip)
+                        print(trip.title)
+                    } else {
+                        print("FAIL! BUT YOU GOT THIS!!!")
                     }
                 }
                 profile.trips = NSOrderedSet(array: trips)
-                if let trips = profile.trips {
-                    for trip in trips {
-                        print((trip as! Trip).title)
-                    }
+//                if let trips = profile.trips {
+//                    for trip in trips {
+//                        print((trip).title)
+//                    }
+//                }
+                do {
+                    try CoreDataStack.shared.save(context: CoreDataStack.shared.mainContext)
+                } catch {
+                    print("Could not save trips.")
                 }
                 return
             } catch {

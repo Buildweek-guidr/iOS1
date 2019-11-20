@@ -19,6 +19,7 @@ struct TripRepresentation: Codable {
     let date: String // YYYY-MM-DD
     let tripType: String
     let id: Int
+//    let userId: String
     
     enum CodingKeys: String, CodingKey {
         case title, isPrivate, isProfessional, image, duration, distance, date, tripType, id
