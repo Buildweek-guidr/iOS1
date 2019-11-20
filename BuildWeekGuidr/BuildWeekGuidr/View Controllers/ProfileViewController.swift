@@ -37,7 +37,11 @@ class ProfileViewController: UIViewController {
             
             for profile in profiles {
                 context.delete(profile)
-                try? CoreDataStack.shared.save(context: context)
+                do {
+                    try CoreDataStack.shared.save(context: context)
+                } catch {
+                    print("Did not log out.")
+                }
             }
         } catch {
             print("Could not log out!")

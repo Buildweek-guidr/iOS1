@@ -50,8 +50,26 @@ class TripsTableViewController: UITableViewController {
     
     // MARK: - Lifecycle Methods
 
-    override func viewDidLoad() {
-        super.viewDidLoad()
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+//        let tripsFetchRequest: NSFetchRequest<Trip> = Trip.fetchRequest()
+//        let context = CoreDataStack.shared.mainContext
+//        do {
+//            let trips = try context.fetch(tripsFetchRequest)
+//            print("Tasks: \(trips.count)")
+//
+//
+//            if trips.count > 1 {
+//                for trip in trips {
+//                    context.delete(trip)
+//                    try? CoreDataStack.shared.save(context: context)
+//                }
+//            }
+//        } catch {
+//            print("error fetching profile")
+//        }
+        
         let fetchRequest: NSFetchRequest<Profile> = Profile.fetchRequest()
         let context = CoreDataStack.shared.mainContext
         do {
@@ -59,6 +77,7 @@ class TripsTableViewController: UITableViewController {
             if profiles.count == 1 {
                 // fetch trips here
                 print("We have a profile! \(profiles.count)")
+                apiController.fetchTrips()
             } else if profiles.count > 1 {
                 for profile in profiles {
                     context.delete(profile)
@@ -83,8 +102,7 @@ class TripsTableViewController: UITableViewController {
     }
     
     @IBAction func reload(_ sender: Any) {
-        print("reload")
-//        tableView.reloadData()
+        viewWillAppear(true)
     }
     
 
@@ -155,9 +173,12 @@ class TripsTableViewController: UITableViewController {
         if segue.identifier == PropertyKeys.loginSegue {
             guard let loginVC = segue.destination as? LoginViewController else { return }
             loginVC.apiController = apiController
+        } else if segue.identifier == PropertyKeys.detailSegue {
+            guard let detailVC = segue.destination as? TripDetailViewController,
+                let indexPath = tableView.indexPathForSelectedRow else { return }
+            detailVC.apiController = apiController
+            detailVC.trip = fetchedResultsController.object(at: indexPath)
         }
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
     }
     
 

@@ -12,6 +12,13 @@ class TripDetailViewController: UIViewController {
     
     // MARK: - Outlets
     @IBOutlet weak var imageView: UIImageView!
+    @IBOutlet weak var dateTextField: UITextField!
+    @IBOutlet weak var typeTextField: UITextField!
+    @IBOutlet weak var privateTextField: UITextField!
+    @IBOutlet weak var professionalTextField: UITextField!
+    @IBOutlet weak var descriptionTextField: UITextField!
+    @IBOutlet weak var distanceTextField: UITextField!
+    
     @IBOutlet weak var dateLabel: UILabel!
     @IBOutlet weak var typeLabel: UILabel!
     @IBOutlet weak var descriptionLabel: UILabel!
@@ -21,12 +28,18 @@ class TripDetailViewController: UIViewController {
     
     // MARK: - Properties
     var trip: Trip?
+    var apiController: APIController?
     
     // MARK: - Lifecycle Methods
     
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
+    }
+    
+    func updateViews() {
+        guard let trip = trip else { return }
+        
     }
     
     
