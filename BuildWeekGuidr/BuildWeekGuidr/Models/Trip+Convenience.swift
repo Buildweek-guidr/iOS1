@@ -50,6 +50,7 @@ extension Trip {
                                         title: String,
                                         tripDescription: String/*,
                                         userId: Int64*/,
+        tripType: String,
         profile: Profile,
                                         context: NSManagedObjectContext = CoreDataStack.shared.mainContext) {
         self.init(context: context)
@@ -62,6 +63,7 @@ extension Trip {
         self.isProfessional = isProfessional
         self.title = title
         self.tripDescription = tripDescription
+        self.tripType = tripType
         self.id = Int16(id)
         self.profile = profile
         
@@ -80,8 +82,7 @@ extension Trip {
             return (Int == 1 ? true : false)
         }
         
-        guard let date = dateFormatter.date(from: tripRepresentation.date)/*,
-            let userId = Int64(tripRepresentation.userId)*/ else { return nil }
+        guard let date = dateFormatter.date(from: tripRepresentation.date) else { return nil }
 //        2019-06-01T00:00:00.000Z
         
         self.init(date: date,
@@ -93,6 +94,7 @@ extension Trip {
             isProfessional: tripRepresentation.isProfessional /*intToBool(tripRepresentation.isProfessional)*/,
             title: tripRepresentation.title,
             tripDescription: tripRepresentation.tripDescription,
+            tripType: tripRepresentation.tripType,
             profile: profile/*,
             userId: userId*/)
     }
