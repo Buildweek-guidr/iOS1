@@ -27,6 +27,17 @@ extension Trip {
         
         return TripRepresentation(title: title, tripDescription: tripDescription, isPrivate: isPrivate, isProfessional: isProfessional/*boolToInt(isPrivate)*/, image: image/* boolToInt(isProfessional)*/, duration: duration, distance: distance, date: dateFormatter.string(from: date), tripType: tripType, id: Int(id)/*, userId: String(userId)*/)
     }
+//    var profileForTrip: Profile? {
+//        let fetchRequest: NSFetchRequest<Profile> = Profile.fetchRequest()
+//        let context = CoreDataStack.shared.mainContext
+//        do {
+//            let profiles = try context.fetch(fetchRequest)
+//            return profiles[profiles.startIndex]
+//        } catch {
+//            print("no profile")
+//        }
+//        return nil
+//    }
     
     // MARK: - Initializers
     @discardableResult convenience init(date: Date,
@@ -39,8 +50,21 @@ extension Trip {
                                         title: String,
                                         tripDescription: String/*,
                                         userId: Int64*/,
+        /*profile: Profile,*/
                                         context: NSManagedObjectContext = CoreDataStack.shared.mainContext) {
         self.init(context: context)
+        
+        var profileForTrip: Profile? {
+            let fetchRequest: NSFetchRequest<Profile> = Profile.fetchRequest()
+            let context = CoreDataStack.shared.mainContext
+            do {
+                let profiles = try context.fetch(fetchRequest)
+                return profiles[profiles.startIndex]
+            } catch {
+                print("no profile")
+            }
+            return nil
+        }
         
         self.date = date
         self.distance = distance
@@ -51,6 +75,8 @@ extension Trip {
         self.title = title
         self.tripDescription = tripDescription
         self.id = Int16(id)
+//        self.profile = profileForTrip
+        
 //        self.userId = userId
     }
     

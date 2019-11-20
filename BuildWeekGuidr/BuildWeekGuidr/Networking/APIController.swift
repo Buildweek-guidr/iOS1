@@ -303,7 +303,7 @@ class APIController {
                     trip.date = dateFormatter.date(from: representation.date)
                     trip.distance = representation.distance
                     trip.duration = representation.duration
-                    trip.image = representation.image ?? ""
+                    trip.image = representation.image
                     trip.isPrivate = representation.isPrivate
                     trip.isProfessional = representation.isProfessional
                     trip.title = representation.title
@@ -323,6 +323,7 @@ class APIController {
                 }
                 try CoreDataStack.shared.save(context: context)
                 self.profile?.trips = NSOrderedSet(array: trips)
+                try CoreDataStack.shared.save(context: context)
             } catch {
                 print("Error adding tasks to persistent store: \(error)")
             }

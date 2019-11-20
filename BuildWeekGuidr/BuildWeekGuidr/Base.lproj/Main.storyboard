@@ -156,6 +156,12 @@
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                                 <items>
                                     <barButtonItem systemItem="edit" id="Pn4-tF-vmy"/>
+                                    <barButtonItem style="plain" systemItem="flexibleSpace" id="d3P-0D-aXc"/>
+                                    <barButtonItem title="Log Out" id="27V-9V-A6W">
+                                        <connections>
+                                            <action selector="logOut:" destination="EnT-dc-eHM" id="qQ9-SV-AFu"/>
+                                        </connections>
+                                    </barButtonItem>
                                 </items>
                             </toolbar>
                         </subviews>
@@ -208,32 +214,24 @@
                                 <rect key="frame" x="16" y="40" width="382" height="185"/>
                                 <subviews>
                                     <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="VPx-WY-dbx">
-                                        <rect key="frame" x="125.5" y="0.0" width="131" height="32"/>
+                                        <rect key="frame" x="123.5" y="0.0" width="135" height="32"/>
                                         <segments>
-                                            <segment title="First"/>
-                                            <segment title="Second"/>
+                                            <segment title="Sign Up"/>
+                                            <segment title="Login"/>
                                         </segments>
                                         <connections>
-                                            <action selector="loginTypeSegmentedControl:" destination="qp5-Ar-h8g" eventType="valueChanged" id="OlF-W7-Qv8"/>
+                                            <action selector="signInTypeChanged:" destination="qp5-Ar-h8g" eventType="valueChanged" id="Cer-bv-kNx"/>
                                         </connections>
                                     </segmentedControl>
                                     <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Username" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="xw3-Cs-sDo">
                                         <rect key="frame" x="0.0" y="43" width="382" height="34"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <textInputTraits key="textInputTraits"/>
-                                        <connections>
-                                            <action selector="usernameTextField:" destination="qp5-Ar-h8g" eventType="editingDidEnd" id="r7L-uW-asq"/>
-                                            <action selector="usernameTextField:" destination="c7i-ST-9dc" eventType="editingDidEnd" id="xr2-tQ-Od7"/>
-                                        </connections>
                                     </textField>
                                     <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Password" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="BC2-fy-GHA">
                                         <rect key="frame" x="0.0" y="89" width="382" height="34"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <textInputTraits key="textInputTraits"/>
-                                        <connections>
-                                            <action selector="passwordTextField:" destination="qp5-Ar-h8g" eventType="editingDidEnd" id="NZR-HY-8uz"/>
-                                            <action selector="passwordTextField:" destination="c7i-ST-9dc" eventType="editingDidEnd" id="myt-Ni-has"/>
-                                        </connections>
                                     </textField>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="d4x-SY-doT">
                                         <rect key="frame" x="40" y="135" width="302" height="50"/>
@@ -242,7 +240,7 @@
                                         </constraints>
                                         <state key="normal" title="Button"/>
                                         <connections>
-                                            <action selector="loginButton:" destination="qp5-Ar-h8g" eventType="touchUpInside" id="9CR-2Q-Tpn"/>
+                                            <action selector="buttonTapped:" destination="qp5-Ar-h8g" eventType="touchUpInside" id="OZI-Zi-BMm"/>
                                         </connections>
                                     </button>
                                 </subviews>
@@ -264,9 +262,14 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="M4b-ri-sIM"/>
                     </view>
+                    <connections>
+                        <outlet property="loginTypeSegmentedControl" destination="VPx-WY-dbx" id="NP7-Ak-Vxd"/>
+                        <outlet property="passwordTextField" destination="BC2-fy-GHA" id="Jq2-nS-j9A"/>
+                        <outlet property="signInButton" destination="d4x-SY-doT" id="oEk-7k-gfN"/>
+                        <outlet property="usernameTextField" destination="xw3-Cs-sDo" id="OYs-qb-RkH"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ngJ-Jh-spU" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
-                <exit id="c7i-ST-9dc" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
             <point key="canvasLocation" x="406" y="-595"/>
         </scene>

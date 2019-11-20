@@ -52,40 +52,39 @@ class TripsTableViewController: UITableViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-//        NSFetchRequest for profile
-        
-//        if profile exists {
-//            performSegue(withIdentifier: PropertyKeys.loginSegue, sender: self)
-//        }
-        apiController.signIn(with: "user2", and: "pass") { error in
-            if let error = error {
-                
-                print(error)
+        let fetchRequest: NSFetchRequest<Profile> = Profile.fetchRequest()
+        let context = CoreDataStack.shared.mainContext
+        do {
+            let profiles = try context.fetch(fetchRequest)
+            if profiles.count == 1 {
+                // fetch trips here
+                print("We have a profile! \(profiles.count)")
+            } else if profiles.count > 1 {
+                for profile in profiles {
+                    context.delete(profile)
+                    try? CoreDataStack.shared.save(context: context)
+                }
+                print("Too many profiles: \(profiles.count)")
+                // login here
+                performSegue(withIdentifier: PropertyKeys.loginSegue, sender: self)
+            } else {
+                print("No profile...")
+                // login here
+                performSegue(withIdentifier: PropertyKeys.loginSegue, sender: self)
             }
-            
-            DispatchQueue.main.async {
-                self.tableView.reloadData()
-            }
+        } catch {
+            print("error fetching profile")
         }
-        
-        tableView.reloadData()
-        
-        // Uncomment the following line to preserve selection between presentations
-        // self.clearsSelectionOnViewWillAppear = false
-
-        // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-        // self.navigationItem.rightBarButtonItem = self.editButtonItem
-        
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        tableView.reloadData()
+//        tableView.reloadData()
     }
     
     @IBAction func reload(_ sender: Any) {
         print("reload")
-        tableView.reloadData()
+//        tableView.reloadData()
     }
     
 
@@ -99,7 +98,7 @@ class TripsTableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
         print(fetchedResultsController.fetchedObjects?.count)
-        print(apiController.profile?.trips?.count)
+
         return fetchedResultsController.fetchedObjects?.count ?? 0
     }
 
@@ -148,15 +147,19 @@ class TripsTableViewController: UITableViewController {
     }
     */
 
-    /*
+    
     // MARK: - Navigation
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == PropertyKeys.loginSegue {
+            guard let loginVC = segue.destination as? LoginViewController else { return }
+            loginVC.apiController = apiController
+        }
         // Get the new view controller using segue.destination.
         // Pass the selected object to the new view controller.
     }
-    */
+    
 
 }
 
