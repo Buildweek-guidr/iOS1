@@ -69,7 +69,7 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
-                        <segue destination="qp5-Ar-h8g" kind="presentation" id="tHt-MP-LAh"/>
+                        <segue destination="qp5-Ar-h8g" kind="presentation" identifier="ShowLoginSegue" id="tHt-MP-LAh"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="3qg-aS-iOg" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>

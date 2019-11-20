@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import CoreData
 
 class APIController {
     private let baseUrl = URL(string: "https://guidr-backend-api.herokuapp.com/api")!
@@ -128,8 +129,9 @@ class APIController {
                 let decoded = try decoder.decode(TokenRepresentation.self, from: data)
                 let token = Token(tokenRepresentation: decoded, context: CoreDataStack.shared.mainContext)
                 self.profile?.token = token
-                print(self.profile?.token?.token)
+//                print(self.profile?.token?.token)
                 self.fetchTrips()
+                print("hi")
             } catch {
                 print("Error decoding bearer object: \(error)")
                 completion(error)
@@ -140,7 +142,7 @@ class APIController {
         }.resume()
     }
     
-//    func signIn(with user: User, completion: @escaping (Error?) -> ()) {
+//    func signUp(with user: User, completion: @escaping (Error?) -> ()) {
 //        let signInURL = baseUrl.appendingPathComponent("users/login")
 //        var request = URLRequest(url: signInURL)
 //        request.httpMethod = HTTPMethod.post.rawValue
@@ -225,28 +227,28 @@ class APIController {
 //            decoder.dateDecodingStrategy = .secondsSince1970
             do {
                 let decoded = try decoder.decode([TripRepresentation].self, from: data)
-                
-                var trips: [Trip] = []
-                for tripRepresentation in decoded {
-                    print(tripRepresentation.title)
-                    if let trip = Trip(tripRepresentation: tripRepresentation) {
-                        trips.append(trip)
-                        print(trip.title)
-                    } else {
-                        print("FAIL! BUT YOU GOT THIS!!!")
-                    }
-                }
-                profile.trips = NSOrderedSet(array: trips)
+                self.updateTrips(with: decoded)
+//                var trips: [Trip] = []
+//                for tripRepresentation in decoded {
+//                    print(tripRepresentation.title)
+//                    if let trip = Trip(tripRepresentation: tripRepresentation) {
+//                        trips.append(trip)
+//                        print(trip.title)
+//                    } else {
+//                        print("FAIL! BUT YOU GOT THIS!!!")
+//                    }
+//                }
+//                profile.trips = NSOrderedSet(array: trips)
 //                if let trips = profile.trips {
 //                    for trip in trips {
 //                        print((trip).title)
 //                    }
 //                }
-                do {
-                    try CoreDataStack.shared.save(context: CoreDataStack.shared.mainContext)
-                } catch {
-                    print("Could not save trips.")
-                }
+//                do {
+//                    try CoreDataStack.shared.save(context: CoreDataStack.shared.mainContext)
+//                } catch {
+//                    print("Could not save trips.")
+//                }
                 return
             } catch {
                 print("Error decoding [Trip] object: \(error)")
@@ -257,5 +259,73 @@ class APIController {
         return
     }
     
-    
+    func updateTrips(with representations: [TripRepresentation]) {
+        
+        // Which representations do we already have in Core Data?
+        
+        let tripsToFetch = representations.map { $0.id }
+        
+        let representationsByID = Dictionary(uniqueKeysWithValues: zip(tripsToFetch, representations))
+        
+        // Make a mutable copy of the dictionary above
+        
+        var tripsToCreate = representationsByID
+        
+        let fetchRequest: NSFetchRequest<Trip> = Trip.fetchRequest()
+        // Only fetch tasks with these identifiers
+        fetchRequest.predicate = NSPredicate(format: "id IN %@", tripsToFetch) // or potentially "identifier NOT IN %@"
+        
+//        let context = CoreDataStack.shared.container.newBackgroundContext()
+        let context = CoreDataStack.shared.mainContext
+        
+        context.perform {
+            
+            
+            
+            
+            do {
+                let existingTrips = try context.fetch(fetchRequest)
+                var dateFormatter: DateFormatter {
+                    let formatter = DateFormatter()
+                    formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"
+                    return formatter
+                }
+                var trips: [Trip] = []
+                
+                // Update the ones we do have
+                
+                for trip in existingTrips {
+                    
+                    // Grab the TripRepresentation that corresponds to this task
+                    let identifier = Int(trip.id)
+                    guard let representation = representationsByID[identifier] else { continue }
+                    // This can be abstracted out to another function
+                    trip.date = dateFormatter.date(from: representation.date)
+                    trip.distance = representation.distance
+                    trip.duration = representation.duration
+                    trip.image = representation.image ?? ""
+                    trip.isPrivate = representation.isPrivate
+                    trip.isProfessional = representation.isProfessional
+                    trip.title = representation.title
+                    trip.tripDescription = representation.tripDescription
+                    trip.id = Int16(representation.id)
+                    trips.append(trip)
+                    
+                    tripsToCreate.removeValue(forKey: identifier)
+                }
+                
+                
+                // Figure out which ones we don't have
+                
+                for representation in tripsToCreate.values {
+                    guard let newTrip = Trip(tripRepresentation: representation, context: context) else { continue }
+                    trips.append(newTrip)
+                }
+                try CoreDataStack.shared.save(context: context)
+                self.profile?.trips = NSOrderedSet(array: trips)
+            } catch {
+                print("Error adding tasks to persistent store: \(error)")
+            }
+        }
+    }
 }

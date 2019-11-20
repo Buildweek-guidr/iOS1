@@ -19,12 +19,12 @@ class TripsTableViewController: UITableViewController {
         static let addSegue = "ShowAddTripSegue"
         static let detailSegue = "ShowTripDetailSegue"
         static let profileSegue = "ShowProfileSegue"
+        static let loginSegue = "ShowLoginSegue"
         
         static let date = "date"
     }
     
     let apiController = APIController()
-    
     
     lazy var fetchedResultsController: NSFetchedResultsController<Trip> = {
         
@@ -52,8 +52,12 @@ class TripsTableViewController: UITableViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        apiController.signIn(with: "user1", and: "pass") { error in
+//        NSFetchRequest for profile
+        
+//        if profile exists {
+//            performSegue(withIdentifier: PropertyKeys.loginSegue, sender: self)
+//        }
+        apiController.signIn(with: "user2", and: "pass") { error in
             if let error = error {
                 
                 print(error)
@@ -118,17 +122,16 @@ class TripsTableViewController: UITableViewController {
     }
     */
 
-    /*
+    
     // Override to support editing the table view.
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
             // Delete the row from the data source
-            tableView.deleteRows(at: [indexPath], with: .fade)
-        } else if editingStyle == .insert {
-            // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-        }    
+            let trip = fetchedResultsController.object(at: indexPath)
+            
+        }
     }
-    */
+    
 
     /*
     // Override to support rearranging the table view.
