@@ -50,21 +50,9 @@ extension Trip {
                                         title: String,
                                         tripDescription: String/*,
                                         userId: Int64*/,
-        /*profile: Profile,*/
+        profile: Profile,
                                         context: NSManagedObjectContext = CoreDataStack.shared.mainContext) {
         self.init(context: context)
-        
-        var profileForTrip: Profile? {
-            let fetchRequest: NSFetchRequest<Profile> = Profile.fetchRequest()
-            let context = CoreDataStack.shared.mainContext
-            do {
-                let profiles = try context.fetch(fetchRequest)
-                return profiles[profiles.startIndex]
-            } catch {
-                print("no profile")
-            }
-            return nil
-        }
         
         self.date = date
         self.distance = distance
@@ -75,12 +63,12 @@ extension Trip {
         self.title = title
         self.tripDescription = tripDescription
         self.id = Int16(id)
-//        self.profile = profileForTrip
+        self.profile = profile
         
 //        self.userId = userId
     }
     
-    @discardableResult convenience init?(tripRepresentation: TripRepresentation, context: NSManagedObjectContext = CoreDataStack.shared.mainContext) {
+    @discardableResult convenience init?(tripRepresentation: TripRepresentation, profile: Profile, context: NSManagedObjectContext = CoreDataStack.shared.mainContext) {
         
         var dateFormatter: DateFormatter {
             let formatter = DateFormatter()
@@ -104,7 +92,8 @@ extension Trip {
                   isPrivate: tripRepresentation.isPrivate /*intToBool(tripRepresentation.isPrivate)*/,
             isProfessional: tripRepresentation.isProfessional /*intToBool(tripRepresentation.isProfessional)*/,
             title: tripRepresentation.title,
-            tripDescription: tripRepresentation.tripDescription/*,
+            tripDescription: tripRepresentation.tripDescription,
+            profile: profile/*,
             userId: userId*/)
     }
     

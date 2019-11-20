@@ -8,14 +8,14 @@
         <attribute name="title" optional="YES" attributeType="String"/>
         <attribute name="username" attributeType="String"/>
         <attribute name="yearsExperience" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
-        <relationship name="token" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Token" inverseName="profile" inverseEntity="Token"/>
+        <relationship name="token" optional="YES" maxCount="1" deletionRule="Cascade" destinationEntity="Token" inverseName="profile" inverseEntity="Token"/>
         <relationship name="trips" toMany="YES" deletionRule="Cascade" ordered="YES" destinationEntity="Trip" inverseName="profile" inverseEntity="Trip"/>
     </entity>
     <entity name="Token" representedClassName="Token" syncable="YES" codeGenerationType="class">
         <attribute name="token" optional="YES" attributeType="String"/>
         <attribute name="userId" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="username" optional="YES" attributeType="String"/>
-        <relationship name="profile" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Profile" inverseName="token" inverseEntity="Profile"/>
+        <relationship name="profile" optional="YES" maxCount="1" deletionRule="Deny" destinationEntity="Profile" inverseName="token" inverseEntity="Profile"/>
     </entity>
     <entity name="Trip" representedClassName="Trip" syncable="YES" codeGenerationType="class">
         <attribute name="date" optional="YES" attributeType="Date" usesScalarValueType="NO"/>

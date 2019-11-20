@@ -23,7 +23,7 @@ class APIController {
     }
     
     
-    var profile: Profile?
+//    var profile: Profile?
     
 //    func signUp(with user: User, completion: @escaping (Error?) -> ()) {
 //        let signUpUrl = baseUrl.appendingPathComponent("users/signup")
@@ -86,7 +86,7 @@ class APIController {
         
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
         
-        profile = Profile(username: username, password: password, age: nil, guideSpecialty: nil, title: nil, tagline: nil, yearsExperience: nil, token: nil)
+        let profile = Profile(username: username, password: password, age: nil, guideSpecialty: nil, title: nil, tagline: nil, yearsExperience: nil, token: nil)
         do {
             try CoreDataStack.shared.save(context: CoreDataStack.shared.mainContext)
         } catch {
@@ -94,7 +94,7 @@ class APIController {
         }
 //        guard let profile = profile else { return }
         
-        guard let profileRepresentation = profile?.profileRepresentation else {
+        guard let profileRepresentation = profile.profileRepresentation else {
             print("Profile is nil")
             return
         }
@@ -103,7 +103,7 @@ class APIController {
         
         let jsonEncoder = JSONEncoder()
         do {
-            let jsonData = try jsonEncoder.encode(profile?.profileRepresentation)
+            let jsonData = try jsonEncoder.encode(profile.profileRepresentation)
             request.httpBody = jsonData
         } catch {
             print("Error encoding Profile object: \(error)")
@@ -128,7 +128,13 @@ class APIController {
             do {
                 let decoded = try decoder.decode(TokenRepresentation.self, from: data)
                 let token = Token(tokenRepresentation: decoded, context: CoreDataStack.shared.mainContext)
-                self.profile?.token = token
+                profile.token = token
+                do {
+                    try CoreDataStack.shared.save(context: CoreDataStack.shared.mainContext)
+                } catch {
+                    print("couldn't save token")
+                }
+//                profile.token = token
 //                print(self.profile?.token?.token)
                 self.fetchTrips()
                 print("hi")
@@ -183,8 +189,22 @@ class APIController {
 //    }
     
     func fetchTrips() {
-        guard let profile = profile,
-            let token = profile.token else { return }
+        
+        var profile: Profile?
+                        
+        //                fetch profile and set it
+        let tripsFetchRequest: NSFetchRequest<Profile> = Profile.fetchRequest()
+        let context = CoreDataStack.shared.mainContext
+        do {
+            let profiles = try context.fetch(tripsFetchRequest)
+            print("Profiles: \(profiles.count)")
+            profile = profiles.first
+        } catch {
+            print("error fetching profile")
+        }
+//        print("Token?: \(profile?.token)")
+//        print("Fetching!")
+        guard let token = profile?.token else { return }
         
         let id = Int(token.userId)
         
@@ -203,7 +223,7 @@ class APIController {
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
 //        request.header
         guard let theToken = token.token else { return }
-        print(theToken)
+//        print(theToken)
         request.addValue("\(theToken)", forHTTPHeaderField: "Authorization")
         
         URLSession.shared.dataTask(with: request) { data, _, error in
@@ -220,8 +240,8 @@ class APIController {
             guard let data = data else {
                 return
             }
-            print("*****HERE*****")
-            print(String(data: data, encoding: .utf8))
+//            print("*****HERE*****")
+//            print(String(data: data, encoding: .utf8))
             
             let decoder = JSONDecoder()
 //            decoder.dateDecodingStrategy = .secondsSince1970
@@ -273,15 +293,12 @@ class APIController {
         
         let fetchRequest: NSFetchRequest<Trip> = Trip.fetchRequest()
         // Only fetch tasks with these identifiers
-        fetchRequest.predicate = NSPredicate(format: "id IN %@", tripsToFetch) // or potentially "identifier NOT IN %@"
+        fetchRequest.predicate = NSPredicate(format: "id IN %@", tripsToFetch)
         
 //        let context = CoreDataStack.shared.container.newBackgroundContext()
         let context = CoreDataStack.shared.mainContext
         
         context.perform {
-            
-            
-            
             
             do {
                 let existingTrips = try context.fetch(fetchRequest)
@@ -314,15 +331,29 @@ class APIController {
                     tripsToCreate.removeValue(forKey: identifier)
                 }
                 
-                
                 // Figure out which ones we don't have
                 
+                var profile: Profile?
+                
+                // fetch profile and set it
+                let tripsFetchRequest: NSFetchRequest<Profile> = Profile.fetchRequest()
+                let context = CoreDataStack.shared.mainContext
+                do {
+                    let profiles = try context.fetch(tripsFetchRequest)
+                    print("Profiles: \(profiles.count)")
+                    profile = profiles.first
+                } catch {
+                    print("error fetching profile")
+                }
+                
                 for representation in tripsToCreate.values {
-                    guard let newTrip = Trip(tripRepresentation: representation, context: context) else { continue }
-                    trips.append(newTrip)
+                    // pass profile in
+                    guard let profile = profile else { continue }
+                    Trip(tripRepresentation: representation, profile: profile, context: context)
+                    print("Trip created: \(representation.id)")
                 }
                 try CoreDataStack.shared.save(context: context)
-                self.profile?.trips = NSOrderedSet(array: trips)
+                profile?.trips = NSOrderedSet(array: trips)
                 try CoreDataStack.shared.save(context: context)
             } catch {
                 print("Error adding tasks to persistent store: \(error)")
