@@ -68,6 +68,8 @@ extension Profile {
             experienceRep = nil
         }
         
+        
+        
         self.init(username: profileRepresentation.username,
                   password: profileRepresentation.password,
                   age: profileRepresentation.age,

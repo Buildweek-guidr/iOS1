@@ -25,7 +25,17 @@ extension Trip {
             let tripType = tripType,
             let tripDescription = tripDescription else { return nil }
         
-        return TripRepresentation(title: title, tripDescription: tripDescription, isPrivate: isPrivate, isProfessional: isProfessional/*boolToInt(isPrivate)*/, image: image/* boolToInt(isProfessional)*/, duration: duration, distance: distance, date: dateFormatter.string(from: date), tripType: tripType, id: Int(id)/*, userId: String(userId)*/)
+        return TripRepresentation(title: title,
+                                  tripDescription: tripDescription,
+                                  isPrivate: isPrivate,
+                                  isProfessional: isProfessional,
+                                  image: image,
+                                  duration: duration,
+                                  distance: distance,
+                                  date: dateFormatter.string(from: date),
+                                  tripType: tripType,
+                                  id: Int(id)/*,
+                                  userId: Int(userId)*/)
     }
 //    var profileForTrip: Profile? {
 //        let fetchRequest: NSFetchRequest<Profile> = Profile.fetchRequest()
@@ -43,17 +53,21 @@ extension Trip {
     @discardableResult convenience init(date: Date,
                                         distance: Double,
                                         duration: Double,
-                                        id: Int,
+                                        id: Int16? = nil,
                                         image: String,
                                         isPrivate: Bool,
                                         isProfessional: Bool,
                                         title: String,
-                                        tripDescription: String/*,
-                                        userId: Int64*/,
+                                        tripDescription: String,/*
+                                        userId: Int64,*/
         tripType: String,
         profile: Profile,
                                         context: NSManagedObjectContext = CoreDataStack.shared.mainContext) {
         self.init(context: context)
+        
+        if let id = id {
+            self.id = id
+        }
         
         self.date = date
         self.distance = distance
@@ -64,9 +78,7 @@ extension Trip {
         self.title = title
         self.tripDescription = tripDescription
         self.tripType = tripType
-        self.id = Int16(id)
         self.profile = profile
-        
 //        self.userId = userId
     }
     
@@ -81,27 +93,32 @@ extension Trip {
         func intToBool(_ Int: Int) -> Bool {
             return (Int == 1 ? true : false)
         }
+        var int16Id: Int16?
+        if let tripId = tripRepresentation.id {
+            int16Id = Int16(tripId)
+        } else {
+            int16Id = nil
+        }
         
         guard let date = dateFormatter.date(from: tripRepresentation.date) else { return nil }
 //        2019-06-01T00:00:00.000Z
-        
+//        , let tripIdInt = tripRepresentation.id, let tripId = Int16(tripIdInt)
+//        guard let profile = profile else { return }
         self.init(date: date,
                   distance: tripRepresentation.distance,
                   duration: tripRepresentation.duration,
-                  id: tripRepresentation.id,
+                  id: int16Id,
                   image: tripRepresentation.image,
-                  isPrivate: tripRepresentation.isPrivate /*intToBool(tripRepresentation.isPrivate)*/,
-            isProfessional: tripRepresentation.isProfessional /*intToBool(tripRepresentation.isProfessional)*/,
+                  isPrivate: tripRepresentation.isPrivate,
+            isProfessional: tripRepresentation.isProfessional,
             title: tripRepresentation.title,
-            tripDescription: tripRepresentation.tripDescription,
+            tripDescription: tripRepresentation.tripDescription/*,
+            userId: Int64(tripRepresentation.userId)*/,
             tripType: tripRepresentation.tripType,
-            profile: profile/*,
-            userId: userId*/)
+            profile: profile)
     }
     
-    func boolToInt(_ boolean: Bool) -> Int {
-        return (boolean ? 1 : 0)
-    }
+    
     
     
     

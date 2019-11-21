@@ -25,6 +25,7 @@ class TripsTableViewController: UITableViewController {
     }
     
     let apiController = APIController()
+    var profile: Profile?
     
     lazy var fetchedResultsController: NSFetchedResultsController<Trip> = {
         
@@ -41,6 +42,7 @@ class TripsTableViewController: UITableViewController {
         
         do {
             try frc.performFetch()
+            
         } catch {
             fatalError("Error performing fetch for frc: \(error)")
         }
@@ -76,7 +78,9 @@ class TripsTableViewController: UITableViewController {
             let profiles = try context.fetch(fetchRequest)
             if profiles.count == 1 {
                 // fetch trips here
-                print("We have a profile! \(profiles.count)")
+                profile = profiles[0]
+                print("We have a profile! \(profile?.username)")
+                print("Trip count: \(fetchedResultsController.fetchedObjects?.count ?? 0)")
                 apiController.fetchTrips()
             } else if profiles.count > 1 {
                 for profile in profiles {
@@ -115,7 +119,7 @@ class TripsTableViewController: UITableViewController {
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
-        print(fetchedResultsController.fetchedObjects?.count)
+//        print(fetchedResultsController.fetchedObjects?.count)
 
         return fetchedResultsController.fetchedObjects?.count ?? 0
     }
@@ -145,7 +149,7 @@ class TripsTableViewController: UITableViewController {
         if editingStyle == .delete {
             // Delete the row from the data source
             let trip = fetchedResultsController.object(at: indexPath)
-            
+            apiController.deleteTrip(trip)
         }
     }
     
@@ -178,6 +182,10 @@ class TripsTableViewController: UITableViewController {
                 let indexPath = tableView.indexPathForSelectedRow else { return }
             detailVC.apiController = apiController
             detailVC.trip = fetchedResultsController.object(at: indexPath)
+        } else if segue.identifier == PropertyKeys.addSegue {
+            guard let detailVC = segue.destination as? TripDetailViewController else { return }
+            detailVC.apiController = apiController
+            detailVC.profile = profile
         }
     }
     

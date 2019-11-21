@@ -3,13 +3,13 @@
     <entity name="Profile" representedClassName="Profile" syncable="YES" codeGenerationType="class">
         <attribute name="age" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="guideSpecialty" optional="YES" attributeType="String"/>
-        <attribute name="password" attributeType="String"/>
+        <attribute name="password" optional="YES" attributeType="String"/>
         <attribute name="tagline" optional="YES" attributeType="String"/>
         <attribute name="title" optional="YES" attributeType="String"/>
         <attribute name="username" attributeType="String"/>
         <attribute name="yearsExperience" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
         <relationship name="token" optional="YES" maxCount="1" deletionRule="Cascade" destinationEntity="Token" inverseName="profile" inverseEntity="Token"/>
-        <relationship name="trips" toMany="YES" deletionRule="Cascade" ordered="YES" destinationEntity="Trip" inverseName="profile" inverseEntity="Trip"/>
+        <relationship name="trips" optional="YES" toMany="YES" deletionRule="Cascade" ordered="YES" destinationEntity="Trip" inverseName="profile" inverseEntity="Trip"/>
     </entity>
     <entity name="Token" representedClassName="Token" syncable="YES" codeGenerationType="class">
         <attribute name="token" optional="YES" attributeType="String"/>
@@ -27,7 +27,7 @@
         <attribute name="isProfessional" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
         <attribute name="title" optional="YES" attributeType="String"/>
         <attribute name="tripDescription" optional="YES" attributeType="String"/>
-        <attribute name="tripType" attributeType="String"/>
+        <attribute name="tripType" optional="YES" attributeType="String"/>
         <attribute name="userId" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
         <relationship name="profile" maxCount="1" deletionRule="Nullify" destinationEntity="Profile" inverseName="trips" inverseEntity="Profile"/>
     </entity>

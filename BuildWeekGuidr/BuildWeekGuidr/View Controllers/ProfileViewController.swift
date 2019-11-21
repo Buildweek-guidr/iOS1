@@ -15,15 +15,26 @@ class ProfileViewController: UIViewController {
     @IBOutlet weak var profileImageView: UIImageView!
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var taglineLabel: UILabel!
+    @IBOutlet weak var specialtyTextField: UITextField!
+    @IBOutlet weak var ageTextField: UITextField!
+    @IBOutlet weak var experienceTextField: UITextField!
+    @IBOutlet weak var titleTextField: UITextField!
+    @IBOutlet weak var taglineTextField: UITextField!
+    @IBOutlet weak var specialtyLabel: UILabel!
+    @IBOutlet weak var experienceLabel: UILabel!
+    @IBOutlet weak var ageLabel: UILabel!
     
     // MARK: - Properties
+    
+    var profile: Profile?
     
     // MARK: - Lifecycle Methods
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        updateView()
+        updateProfile()
+        updateViews()
     }
     
     // MARK: - Actions
@@ -37,12 +48,9 @@ class ProfileViewController: UIViewController {
             
             for profile in profiles {
                 context.delete(profile)
-                do {
-                    try CoreDataStack.shared.save(context: context)
-                } catch {
-                    print("Did not log out.")
-                }
             }
+            try CoreDataStack.shared.save(context: context)
+            print("Logged out")
         } catch {
             print("Could not log out!")
         }
@@ -51,12 +59,34 @@ class ProfileViewController: UIViewController {
     
     // MARK: - Private Methods
     
-    private func updateView() {
+    private func updateViews() {
+        updateUI()
+        guard let profile = profile else { return }
+        titleLabel.text = profile.title
+        taglineLabel.text = profile.tagline
+        specialtyLabel.text = profile.guideSpecialty
+        ageLabel.text = String(profile.age)
+        experienceLabel.text = String(profile.yearsExperience)
+    }
+    
+    func updateProfile() {
+        guard let profile = profile else { return }
+    }
+    
+    func updateUI() {
+        
+        titleLabel.isHidden = true
+        taglineLabel.isHidden = true
+        specialtyLabel.isHidden = true
+        ageLabel.isHidden = true
+        experienceLabel.isHidden = true
         profileImageView.layer.cornerRadius = (profileImageView.bounds.size.width - 1) / 2
         profileImageView.layer.cornerCurve = .circular
         profileImageView.layer.borderWidth = 4
         profileImageView.layer.borderColor = UIColor(displayP3Red: 28/255.0, green: 28/255.0, blue: 30/255.0, alpha: 1.0).cgColor
     }
+    
+    
     
     
     /*

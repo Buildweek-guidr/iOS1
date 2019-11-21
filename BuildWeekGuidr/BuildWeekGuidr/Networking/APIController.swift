@@ -22,61 +22,7 @@ class APIController {
         case noAuth, otherError, badData, noDecode
     }
     
-    
-//    var profile: Profile?
-    
-//    func signUp(with user: User, completion: @escaping (Error?) -> ()) {
-//        let signUpUrl = baseUrl.appendingPathComponent("users/signup")
-//
-//        var request = URLRequest(url: signUpUrl)
-//        request.httpMethod = HTTPMethod.post.rawValue
-//        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
-//
-//        let jsonEncoder = JSONEncoder()
-//        do {
-//            let jsonData = try jsonEncoder.encode(user)
-//            request.httpBody = jsonData
-//        } catch {
-//            print("Error encoding user object: \(error)")
-//            completion(error)
-//            return
-//        }
-//        URLSession.shared.dataTask(with: request) { (_, response, error) in
-//            if let response = response as? HTTPURLResponse,
-//                response.statusCode != 200 {
-//                completion(NSError(domain: "", code: response.statusCode, userInfo:nil))
-//                return
-//            }
-//
-//            if let error = error {
-//                completion(error)
-//                return
-//            }
-//
-//            completion(nil)
-//            }.resume()
-//    }
-    
-    
-//    Login
-//
-//    Route:
-//    /accounts/login
-//
-//    Method:
-//    POST
-//
-//    Description:
-//    Send user credentials to login to the application
-//
-//    Body:
-//
-//    { "username": STRING, "password": STRING }
-//    Returns:
-//    User Login Object
-//
-//    { "userId": INTEGER, "username": STRING, "token": STRING }
-    
+   // MARK: - signIn
     
     func signIn(with username: String, and password: String, completion: @escaping (Error?) -> ()) {
         let loginUrl = baseUrl.appendingPathComponent("/accounts/login")
@@ -88,29 +34,29 @@ class APIController {
         
         let profile = Profile(username: username, password: password, age: nil, guideSpecialty: nil, title: nil, tagline: nil, yearsExperience: nil, token: nil)
         do {
-            try CoreDataStack.shared.save(context: CoreDataStack.shared.mainContext)
+            try CoreDataStack.shared.save(context: CoreDataStack.shared.container.newBackgroundContext())
         } catch {
-            print("Could not save profile.")
+            // don't print("Could not save profile.")
         }
 //        guard let profile = profile else { return }
         
         guard let profileRepresentation = profile.profileRepresentation else {
-            print("Profile is nil")
+            // don't print("Profile is nil")
             return
         }
         
-//        print(profile.profileRepresentation?  .username)
+//        // don't print(profile.profileRepresentation?  .username)
         
         let jsonEncoder = JSONEncoder()
         do {
             let jsonData = try jsonEncoder.encode(profile.profileRepresentation)
             request.httpBody = jsonData
         } catch {
-            print("Error encoding Profile object: \(error)")
+            // don't print("Error encoding Profile object: \(error)")
             completion(error)
             return
         }
-        print(request)
+        // don't print(request)
         URLSession.shared.dataTask(with: request) { (data, _, error) in
 
             
@@ -125,21 +71,23 @@ class APIController {
             }
             
             let decoder = JSONDecoder()
+            let context = CoreDataStack.shared.container.newBackgroundContext()
             do {
                 let decoded = try decoder.decode(TokenRepresentation.self, from: data)
-                let token = Token(tokenRepresentation: decoded, context: CoreDataStack.shared.mainContext)
+                let token = Token(tokenRepresentation: decoded, context: context)
                 profile.token = token
+                self.fetchProfile()
                 do {
-                    try CoreDataStack.shared.save(context: CoreDataStack.shared.mainContext)
+                    try CoreDataStack.shared.save(context: context)
                 } catch {
-                    print("couldn't save token")
+                    // don't print("couldn't save token")
                 }
 //                profile.token = token
-//                print(self.profile?.token?.token)
-                self.fetchTrips()
-                print("hi")
+//                // don't print(self.profile?.token?.token)
+//                self.fetchTrips()
+                // don't print("hi")
             } catch {
-                print("Error decoding bearer object: \(error)")
+                // don't print("Error decoding bearer object: \(error)")
                 completion(error)
                 return
             }
@@ -148,130 +96,60 @@ class APIController {
         }.resume()
     }
     
-//    func signUp(with user: User, completion: @escaping (Error?) -> ()) {
-//        let signInURL = baseUrl.appendingPathComponent("users/login")
-//        var request = URLRequest(url: signInURL)
-//        request.httpMethod = HTTPMethod.post.rawValue
-//        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
-//        let jsonEncoder = JSONEncoder()
-//        do {
-//            let jsonData = try jsonEncoder.encode(user)
-//            request.httpBody = jsonData
-//        } catch {
-//            print("Error encoding user object: \(error)")
-//            completion(error)
-//            return
-//        }
-//        URLSession.shared.dataTask(with: request) { data, response, error in
-//            if let response = response as? HTTPURLResponse,
-//                response.statusCode != 200 {
-//                completion(NSError(domain: "", code: response.statusCode, userInfo: nil))
-//                return
-//            }
-//            if let error = error {
-//                completion(error)
-//                return
-//            }
-//            guard let data = data else {
-//                completion(NSError())
-//                return
-//            }
-//            let decoder = JSONDecoder()
-//            do{
-//                self.bearer = try decoder.decode(Bearer.self, from: data)
-//            } catch {
-//                print("Error decoing bearer object: \(error)")
-//                completion(error)
-//                return
-//            }
-//            completion(nil)
-//        }.resume()
-//    }
+    // MARK: - fetch
     
     func fetchTrips() {
         
         var profile: Profile?
                         
         //                fetch profile and set it
-        let tripsFetchRequest: NSFetchRequest<Profile> = Profile.fetchRequest()
-        let context = CoreDataStack.shared.mainContext
+        let fetchRequest: NSFetchRequest<Profile> = Profile.fetchRequest()
+        let context = CoreDataStack.shared.container.newBackgroundContext()
         do {
-            let profiles = try context.fetch(tripsFetchRequest)
-            print("Profiles: \(profiles.count)")
+            let profiles = try context.fetch(fetchRequest)
+            // don't print("Profiles: \(profiles.count)")
             profile = profiles.first
         } catch {
-            print("error fetching profile")
+            // don't print("error fetching profile")
         }
-//        print("Token?: \(profile?.token)")
-//        print("Fetching!")
+//        // don't print("Token?: \(profile?.token)")
+//        // don't print("Fetching!")
         guard let token = profile?.token else { return }
         
         let id = Int(token.userId)
         
         let tripsURL = baseUrl.appendingPathComponent("/users/\(id)/trips")
-        print(tripsURL)
         
         var request = URLRequest(url: tripsURL)
         request.httpMethod = HTTPMethod.get
-        
-//        do {
-//            let tokenRepresentation = token.tokenRepresentation
-//            let encodedToken = try JSONEncoder().encode(tokenRepresentation)
-//        } catch {
-//            print("Can't encode token.")
-//        }
+  
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
 //        request.header
         guard let theToken = token.token else { return }
-//        print(theToken)
+//        // don't print(theToken)
         request.addValue("\(theToken)", forHTTPHeaderField: "Authorization")
         
         URLSession.shared.dataTask(with: request) { data, _, error in
-//            if let response = response as? HTTPURLResponse,
-//            response.statusCode == 401 {
-//                completion(.failure(.badAuth))
-//                return
-//            }
             
             if let error = error {
-                print("Error receiving Trips data: \(error)")
+                // don't print("Error receiving Trips data: \(error)")
             }
             
             guard let data = data else {
                 return
             }
-//            print("*****HERE*****")
-//            print(String(data: data, encoding: .utf8))
+//            // don't print("*****HERE*****")
+//            // don't print(String(data: data, encoding: .utf8))
             
             let decoder = JSONDecoder()
 //            decoder.dateDecodingStrategy = .secondsSince1970
             do {
                 let decoded = try decoder.decode([TripRepresentation].self, from: data)
                 self.updateTrips(with: decoded)
-//                var trips: [Trip] = []
-//                for tripRepresentation in decoded {
-//                    print(tripRepresentation.title)
-//                    if let trip = Trip(tripRepresentation: tripRepresentation) {
-//                        trips.append(trip)
-//                        print(trip.title)
-//                    } else {
-//                        print("FAIL! BUT YOU GOT THIS!!!")
-//                    }
-//                }
-//                profile.trips = NSOrderedSet(array: trips)
-//                if let trips = profile.trips {
-//                    for trip in trips {
-//                        print((trip).title)
-//                    }
-//                }
-//                do {
-//                    try CoreDataStack.shared.save(context: CoreDataStack.shared.mainContext)
-//                } catch {
-//                    print("Could not save trips.")
-//                }
+
                 return
             } catch {
-                print("Error decoding [Trip] object: \(error)")
+                // don't print("Error decoding [Trip] object: \(error)")
                 
                 return
             }
@@ -279,12 +157,188 @@ class APIController {
         return
     }
     
+    // MARK: - CRUD for Profiles
+    
+    func fetchProfile() {
+        var profile: Profile?
+                                
+                //                fetch profile and set it
+                let tripsFetchRequest: NSFetchRequest<Profile> = Profile.fetchRequest()
+        let context = CoreDataStack.shared.container.newBackgroundContext()
+                do {
+                    let profiles = try context.fetch(tripsFetchRequest)
+                    // don't print("Profiles: \(profiles.count)")
+                    profile = profiles.first
+                } catch {
+                    // don't print("error fetching profile")
+                }
+        //        // don't print("Token?: \(profile?.token)")
+        //        // don't print("Fetching!")
+                guard let token = profile?.token else { return }
+                
+                let id = Int(token.userId)
+                
+                let tripsURL = baseUrl.appendingPathComponent("/users/\(id)/profile")
+                
+                var request = URLRequest(url: tripsURL)
+                request.httpMethod = HTTPMethod.get
+          
+                request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        //        request.header
+                guard let theToken = token.token else { return }
+        //        // don't print(theToken)
+                request.addValue("\(theToken)", forHTTPHeaderField: "Authorization")
+                
+                URLSession.shared.dataTask(with: request) { data, _, error in
+                    
+                    if let error = error {
+                        // don't print("Error receiving Trips data: \(error)")
+                    }
+                    
+                    guard let data = data else {
+                        return
+                    }
+        //            // don't print("*****HERE*****")
+        //            // don't print(String(data: data, encoding: .utf8))
+                    
+                    let decoder = JSONDecoder()
+        //            decoder.dateDecodingStrategy = .secondsSince1970
+                    do {
+                        let decoded = try decoder.decode(ProfileRepresentation.self, from: data)
+//                        self.updateTrips(with: decoded)
+                        guard let age = decoded.age,
+                            let yearsExperience = decoded.yearsExperience else { return }
+                        profile?.age = age
+                        profile?.guideSpecialty = decoded.guideSpecialty
+                        profile?.tagline = decoded.tagline
+                        profile?.title = decoded.title
+                        profile?.yearsExperience = yearsExperience
+
+                        return
+                    } catch {
+                        // don't print("Error decoding Profile object: \(error)")
+                        
+                        return
+                    }
+                }.resume()
+                return
+    }
+    
+    // MARK: - CRUD for Trips
+    
+    // MARK: - saveNewTrip
+    
+    func saveNewTrip(trip: Trip, completion: @escaping () -> Void = { }) {
+        var profile: Profile?
+        
+        //                fetch profile and set it
+        let fetchRequest: NSFetchRequest<Profile> = Profile.fetchRequest()
+        let context = CoreDataStack.shared.container.newBackgroundContext()
+        do {
+            let profiles = try context.fetch(fetchRequest)
+            // don't print("Profiles: \(profiles.count)")
+            profile = profiles.first
+        } catch {
+            // don't print("error fetching profile")
+        }
+        //        // don't print("Token?: \(profile?.token)")
+        //        // don't print("Fetching!")
+        guard let token = profile?.token else { return }
+        
+//        let id = Int(token.userId)
+        
+        let tripsURL = baseUrl.appendingPathComponent("/trips")
+        
+        // don't print(tripsURL)
+        var request = URLRequest(url: tripsURL)
+        request.httpMethod = HTTPMethod.post
+        // don't print("Request: \(request)")
+        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        guard let theToken = token.token else { return }
+        //        // don't print(theToken)
+        request.addValue("\(theToken)", forHTTPHeaderField: "Authorization")
+        
+//        set json body
+        guard let tripRepresentation = trip.tripRepresentation else {
+            // don't print("Trip representation is nil")
+            completion()
+            return
+        }
+        
+        do {
+            try CoreDataStack.shared.save(context: context)
+            request.httpBody = try JSONEncoder().encode(tripRepresentation)
+            // don't print(request.httpBody)
+        } catch {
+            // don't print("Error encoding or saving trip representation to disk: \(error)")
+            completion()
+            return
+        }
+        
+        URLSession.shared.dataTask(with: request) { data, _, error in
+            completion()
+            
+            if let error = error {
+                // don't print("Error POSTing trip to server: \(error)")
+                completion()
+                return
+            }
+            
+            if let data = data {
+                do {
+                    let decoded = try JSONDecoder().decode(TripRepresentation.self, from: data)
+                    guard let id = decoded.id else {
+                        // don't print("Could not get id back from server: \(trip)")
+                        return
+                    }
+                    trip.id = Int16(id)
+                    do {
+                        try CoreDataStack.shared.save(context: context)
+                    } catch {
+                        // don't print("could not save id: \(error)")
+                    }
+                } catch {
+                    // don't print("Unable to decode data in object of type TripRepresentation: \(error)")
+                }
+            }
+            completion()
+        }.resume()
+    }
+    
+    // MARK: - deleteTrip
+    
+    
+    func deleteTrip(_ trip: Trip, completion: @escaping () -> Void = { }) {
+        
+        
+        let context = CoreDataStack.shared.container.newBackgroundContext()
+        context.perform {
+            do {
+                context.delete(trip)
+                try CoreDataStack.shared.save(context: context)
+            } catch {
+                context.reset()
+                // don't print("Error deleting object from managed object context: \(error)")
+            }
+            
+            let requestURL = self.baseUrl.appendingPathComponent("trips").appendingPathComponent("\(trip.id)") .appendingPathExtension("json")
+            var request = URLRequest(url: requestURL)
+            request.httpMethod = HTTPMethod.delete
+            
+            URLSession.shared.dataTask(with: request) { _, response, _ in
+                // don't print(response!)
+                completion()
+            }.resume()
+        }
+    }
+    
+    // MARK: - Internal Methods
+    
     func updateTrips(with representations: [TripRepresentation]) {
         
         // Which representations do we already have in Core Data?
         
         let tripsToFetch = representations.map { $0.id }
-        
         let representationsByID = Dictionary(uniqueKeysWithValues: zip(tripsToFetch, representations))
         
         // Make a mutable copy of the dictionary above
@@ -292,11 +346,11 @@ class APIController {
         var tripsToCreate = representationsByID
         
         let fetchRequest: NSFetchRequest<Trip> = Trip.fetchRequest()
-        // Only fetch tasks with these identifiers
-        fetchRequest.predicate = NSPredicate(format: "id IN %@", tripsToFetch)
+        // Only fetch trips with these identifiers id IN %@
+//        fetchRequest.predicate = NSPredicate(format: "id IN %@", tripsToFetch)
         
-//        let context = CoreDataStack.shared.container.newBackgroundContext()
-        let context = CoreDataStack.shared.mainContext
+        //        let context = CoreDataStack.shared.container.newBackgroundContext()
+        let context = CoreDataStack.shared.container.newBackgroundContext()
         
         context.perform {
             
@@ -312,10 +366,12 @@ class APIController {
                 // Update the ones we do have
                 
                 for trip in existingTrips {
-                    
-                    // Grab the TripRepresentation that corresponds to this task
+                    // don't print("\(trip.id)**********here*******************************")
+                    // Grab the TripRepresentation that corresponds to this trip
                     let identifier = Int(trip.id)
-                    guard let representation = representationsByID[identifier] else { continue }
+                    guard let representation = representationsByID[identifier],
+                        let tripId = representation.id else { continue }
+                    // don't print("SAME? \(trip.id)=\(representation.id)")
                     // This can be abstracted out to another function
                     trip.date = dateFormatter.date(from: representation.date)
                     trip.distance = representation.distance
@@ -325,38 +381,38 @@ class APIController {
                     trip.isProfessional = representation.isProfessional
                     trip.title = representation.title
                     trip.tripDescription = representation.tripDescription
-                    trip.id = Int16(representation.id)
+                    trip.id = Int16(tripId)
                     trips.append(trip)
                     
                     tripsToCreate.removeValue(forKey: identifier)
                 }
                 
-                // Figure out which ones we don't have
                 
-                var profile: Profile?
                 
                 // fetch profile and set it
+                var profile: Profile?
                 let tripsFetchRequest: NSFetchRequest<Profile> = Profile.fetchRequest()
-                let context = CoreDataStack.shared.mainContext
+                
+                // Figure out which ones we don't have
                 do {
                     let profiles = try context.fetch(tripsFetchRequest)
-                    print("Profiles: \(profiles.count)")
+                    // don't print("Profiles: \(profiles.count)")
                     profile = profiles.first
                 } catch {
-                    print("error fetching profile")
+                    // don't print("error fetching profile")
                 }
                 
                 for representation in tripsToCreate.values {
                     // pass profile in
                     guard let profile = profile else { continue }
                     Trip(tripRepresentation: representation, profile: profile, context: context)
-                    print("Trip created: \(representation.id)")
+                    // don't print("Trip created: \(representation.id)")
                 }
                 try CoreDataStack.shared.save(context: context)
                 profile?.trips = NSOrderedSet(array: trips)
                 try CoreDataStack.shared.save(context: context)
             } catch {
-                print("Error adding tasks to persistent store: \(error)")
+                // don't print("Error adding trips to persistent store: \(error)")
             }
         }
     }

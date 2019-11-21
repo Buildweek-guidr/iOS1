@@ -17,10 +17,4 @@ struct ProfileRepresentation: Codable {
     let username: String
     let yearsExperience: Int16?
     let token: TokenRepresentation?
-    
-//    enum codingKeys: String, CodingKey {
-//        case age, guideSpecialty, tagline, title, yearsExperience, token
-//        case password = "\"password\""
-//        case username = "\"username\""
-//    }
 }

@@ -9,7 +9,7 @@
 import Foundation
 
 struct TripRepresentation: Codable {
-    let title: String
+    let title: String//
     let tripDescription: String
     let isPrivate: Bool
     let isProfessional: Bool
@@ -18,8 +18,8 @@ struct TripRepresentation: Codable {
     let distance: Double // In miles
     let date: String // YYYY-MM-DD
     let tripType: String
-    let id: Int
-//    let userId: String
+    let id: Int? //
+//    let userId: Int
     
     enum CodingKeys: String, CodingKey {
         case title, isPrivate, isProfessional, image, duration, distance, date, tripType, id
